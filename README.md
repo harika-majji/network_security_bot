@@ -32,4 +32,4 @@ python train.py
 python ingest.py 
 python app.py
 
-// download model from :
+// download model from : https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link and add keep it in model folder
