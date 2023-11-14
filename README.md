@@ -22,7 +22,7 @@ pip install extract-msg==0.45.0
 pip install tabulate==0.9.0
 pip install pandoc==2.3 
 pip install pypandoc==1.11 
-pip install pypdf
+pip install pypdfcd
 pip install tqdm==4.66.1
 pip install sentence_transformers==2.2.2 
 pip install flask
@@ -31,3 +31,5 @@ Command to run
 python train.py
 python ingest.py 
 python app.py
+
+// download model from :
