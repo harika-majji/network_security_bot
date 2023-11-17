@@ -3,7 +3,6 @@ Project Description
 Documentation
 System Architecture
 Video 
-
 Prerequisite
 •	Install python3
 •	Create virtual environment
