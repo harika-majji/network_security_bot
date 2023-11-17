@@ -5,7 +5,6 @@ Project Description
 Documentation
 
 System Architecture
-
 Video 
 
 Prerequisite
