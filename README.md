@@ -1,15 +1,15 @@
 Welcome to Network_Security_Bot
-<h1> Project Description </h1>
-Documentation
-System Architecture
-Video 
-Prerequisite
+<h2> Project Description </h2>
+<h2> Documentation </h2>
+<h2> System Architecture </h2>
+<h2> Video </h2> 
+<h2> Prerequisite </h2>
 •	Install python3
 •	Create virtual environment
 	    python3 -m venv venv
         venv/bin/activate - for MAC users
 	    venv/Scripts/activate - for WINDOWS users
-Requirements
+<h2> Requirements </h2>
 •	pip install langchain==0.0.274 
 •	pip install gpt4all==1.0.8 
 •	pip install chromadb==0.4.7 
@@ -29,12 +29,12 @@ Requirements
 
 Download model from : https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link and create a model folder and add it.
 
-Step by step instructions for executions
+<h2> Step by step instructions for executions </h2>
 
 •	python train.py  # only once when the application runs
 •	python ingest.py # only once until the db folder is generated with all the training data
 •	python app.py    # execute this command to run the application
 
-Features
-Describe training data and data formats
+<h2> Features </h2>
+<h2> Describe training data and data formats </h2>
 
