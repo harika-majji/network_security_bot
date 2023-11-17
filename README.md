@@ -33,6 +33,7 @@ Download model from : https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D
 <h2> Step by step instructions for executions </h2>
 
 •	python train.py  # only once when the application runs
+Quote break.
 •	python ingest.py # only once until the db folder is generated with all the training data
 •	python app.py    # execute this command to run the application
 
