@@ -8,8 +8,8 @@ System Architecture
 Video 
 
 Prerequisite
-•	Install python3
-•	Create virtual environment
+•Install python3
+•Create virtual environment
 	    python3 -m venv venv
 	    venv/bin/activate - for MAC users
 	    venv/Scripts/activate - for WINDOWS users
