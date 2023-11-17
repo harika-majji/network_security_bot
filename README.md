@@ -4,11 +4,13 @@ Welcome to Network_Security_Bot
 <h2> System Architecture </h2>
 <h2> Video </h2> 
 <h2> Prerequisite </h2>
-•	Install python3
-•	Create virtual environment
-	    python3 -m venv venv
+Unordered Lists:
+Install python3
+Create virtual environment
+	Unordered Lists:
+	python3 -m venv venv
         venv/bin/activate - for MAC users
-	    venv/Scripts/activate - for WINDOWS users
+	venv/Scripts/activate - for WINDOWS users
 <h2> Requirements </h2>
 •	pip install langchain==0.0.274 
 •	pip install gpt4all==1.0.8 
