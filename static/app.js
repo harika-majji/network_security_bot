@@ -1,10 +1,7 @@
 class Chatbox {
     constructor() {
-        this.args = {
-            // openButton: document.querySelector('.chatbox__button'),
-            
+        this.args = {          
             chatBox: document.querySelector('.chatbox__support'),
-            
             sendButton: document.querySelector('.send__button')
         }
 
@@ -14,9 +11,6 @@ class Chatbox {
 
     display() {
         const {openButton, chatBox, sendButton} = this.args;
-
-        // openButton.addEventListener('click', () => this.toggleState(chatBox))
-
         sendButton.addEventListener('click', () => this.onSendButton(chatBox))
 
         const node = chatBox.querySelector('input');
@@ -26,18 +20,7 @@ class Chatbox {
             }
         })
     }
-
-    // toggleState(chatbox) {
-    //     this.state = !this.state;
-
-    //     // show or hides the box
-    //     if(this.state) {
-    //         chatbox.classList.add('chatbox--active')
-    //     } else {
-    //         chatbox.classList.remove('chatbox--active')
-    //     }
-    // }
-
+    
     onSendButton(chatbox) {
         var textField = chatbox.querySelector('input');
         let text1 = textField.value
@@ -47,19 +30,20 @@ class Chatbox {
 
         let msg1 = { name: "User", message: text1 }
         this.messages.push(msg1);
-
-        //http://127.0.0.1:5000/predict
-        fetch($SCRIPT_ROOT + '/predict', {
+        this.updateChatText(chatbox)
+        const timeoutInMilliseconds = 300000;
+        fetch($SCRIPT_ROOT + '/generateChat', {
             method: 'POST',
-            body: JSON.stringify({ message: text1 }),
+            body: JSON.stringify({ question: text1 }),
             mode: 'cors',
+            timeout: timeoutInMilliseconds,
             headers: {
               'Content-Type': 'application/json'
             },
           })
           .then(r => r.json())
           .then(r => {
-            let msg2 = { name: "Sam", message: r.answer };
+            let msg2 = { name: "Sam", message: r.answer + " --- " + r.citation };
             this.messages.push(msg2);
             this.updateChatText(chatbox)
             textField.value = ''
