@@ -7,23 +7,23 @@ Welcome to Network_Security_Bot
   <img src="System Architecture.png" width="350" title="sys arch">
 </p>
 <p>
-  <b>User Input:</b></br>
-  The user enters a prompt in the user interface.</br>
-  <b>Embedding Generation:</b></br>
-  The system converts user queries into numerical embeddings, capturing the meaning of the text.</br>
-  <b>Vector Database Query:</b></br>
+  <h4>User Input:</h4>
+  The user enters a prompt in the user interface.
+  <h4>Embedding Generation:</h4>
+  The system converts user queries into numerical embeddings, capturing the meaning of the text.
+  <h4>Vector Database Query:</h4>
   The application sends the generated embedding to the vector database.</br>
   The vector database compares the user's embedding with precomputed embeddings of various documents.</br>
-  It returns a list of documents that are most relevant to the user's prompt based on the similarity of their embeddings to the user's embedding.</br>
-  <b>Contextual Prompt Creation:</b></br>
+  It returns a list of documents that are most relevant to the user's prompt based on the similarity of their embeddings to the user's embedding.
+  <h4>Contextual Prompt Creation:</h4>
   The application creates a new prompt by combining the user's initial prompt with the retrieved documents as context.</br>
-  This step aims to provide additional information and context to the local Language Model.</br>
-  <b>Local Language Model Processing (LLM):</b></br>
+  This step aims to provide additional information and context to the local Language Model.
+  <h4>Local Language Model Processing (LLM):</h4>
   The modified prompt, containing both the user's input and relevant context documents, is sent to the local Language Model (LLM).</br>
   The LLM processes the contextual prompt and generates a response based on the combined information.</br>
-  The response includes citations or references from the context documents, demonstrating the sources used to generate the answer.</br>
-  <b>User Interface Display:</b></br>
-  The system presents the response along with citations in the user interface.
+  The response includes citations or references from the context documents, demonstrating the sources used to generate the answer.
+  <h4>User Interface Display:</h4>
+  The system presents the response along with citations in the user interface.</br>
   Users can view the answer and sources, ensuring transparency and credibility in the information provided.
 </p>
 <h2> Video </h2> 
