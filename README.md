@@ -51,7 +51,7 @@ venv/Scripts/activate - for WINDOWS users</br>
 *pip install sentence_transformers==2.2.2 </br>
 *pip install flask
 
-<p>Download model from : <a href="https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link"> drive link</a> and create a model folder and add it.</p>
+<p>Download the  : <a href="https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link">model</a> and create a model folder and add it.</p>
 
 <h2> Step by step instructions for executions </h2>
 
