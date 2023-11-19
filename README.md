@@ -29,7 +29,7 @@ venv/Scripts/activate - for WINDOWS users
 *pip install flask
 
 
-Download model from : <div href="https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link"> drive link </div> and create a model folder and add it.
+Download model from : <a href="https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link"> drive link </a> and create a model folder and add it.
 
 <h2> Step by step instructions for executions </h2>
 
