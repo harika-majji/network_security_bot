@@ -6,22 +6,22 @@ Welcome to Network_Security_Bot
   <img src="System Architecture.png" width="350" title="sys arch">
 </p>
 <p>
-  <b>User Input:</b></br>
+  <h5>User Input:</h5></br>
   The user enters a prompt in the user interface.</br>
-  <b>Embedding Generation:</b></br>
+  </br><h5>Embedding Generation:</h5></br>
   The system converts user queries into numerical embeddings, capturing the meaning of the text.</br>
-  <b>Vector Database Query:</b></br>
+  </br><h5>Vector Database Query:</h5></br>
   The application sends the generated embedding to the vector database.</br>
   The vector database compares the user's embedding with precomputed embeddings of various documents.</br>
   It returns a list of documents that are most relevant to the user's prompt based on the similarity of their embeddings to the user's embedding.</br>
-  <b>Contextual Prompt Creation:</b></br>
+  </br><h5>Contextual Prompt Creation:</h5></br>
   The application creates a new prompt by combining the user's initial prompt with the retrieved documents as context.</br>
   This step aims to provide additional information and context to the local Language Model.</br>
-  <b>Local Language Model Processing (LLM):</b></br>
+  </br><h5>Local Language Model Processing (LLM):</h5></br>
   The modified prompt, containing both the user's input and relevant context documents, is sent to the local Language Model (LLM).</br>
   The LLM processes the contextual prompt and generates a response based on the combined information.</br>
   The response includes citations or references from the context documents, demonstrating the sources used to generate the answer.</br>
-  <b>User Interface Display:</b></br>
+  </br><h5>User Interface Display:</h5></br>
   The system presents the response along with citations in the user interface.
   Users can view the answer and sources, ensuring transparency and credibility in the information provided.
 </p>
@@ -51,7 +51,7 @@ venv/Scripts/activate - for WINDOWS users
 *pip install flask
 
 
-Download model from : https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link and create a model folder and add it.
+Download model from : https://drive.google.com/file/d/1RHfTHIZ8-N3FV4Lj_m99NYq8D4lOqgtM/view?usp=drive_link and create a models folder and add it.
 
 <h2> Step by step instructions for executions </h2>
 
