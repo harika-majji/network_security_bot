@@ -1,4 +1,4 @@
-Welcome to Network_Security_Bot
+<h1>Welcome to Network Security Bot</h1>
 <h2> Project Description </h2>
 <p>Build or develop a quiz bot based on a network security course using the open-source alternatives to ChatGPT that can be run on any local machine. As data privacy can be compromised when sending data over the internet, it is mandatory to keep it on local system. The bot offers two types of questions: randomly generated questions and specific topic questions, the answers should be pulled from the network security database. The bot is trained using network security quizzes, lecture slides, network security textbook. The quiz includes multiple-choice questions, true/false questions, and open-ended questions. Finally, the bot will provide feedback on the user's answers if it is correct or not along with the reference source documentation title.</p>
 <h2> Documentation </h2>
@@ -55,10 +55,11 @@ venv/Scripts/activate - for WINDOWS users</br>
 
 <h2> Step by step instructions for executions </h2>
 
-•	python train.py  # only once when the application runs Quote break.</br>
+•	python train.py  # only once when the application runs </br>
 •	python ingest.py # only once until the db folder is generated with all the training data </br>
 •	python app.py    # execute this command to run the application
 
 <h2> Features </h2>
 <h2> Describe training data and data formats </h2>
+<p>We trained our bot using lecture slides and network security textbook(Network Security Essentials: Applications and Standards sixth edition - by William Stallings)</p>
 
