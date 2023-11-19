@@ -3,6 +3,29 @@ Welcome to Network_Security_Bot
 <p>Our task is to build a quiz bot based on a network security course using the open-source alternatives to ChatGPT that can be run on any local machine. As data privacy can be compromised when sending data over the internet, it is mandatory to keep it on local system. The bot offers two types of questions: randomly generated questions and specific topic questions, the answers should be pulled from the network security database. The bot is trained using network security quizzes, lecture slides, network security textbook, and the Internet. The quiz includes multiple-choice questions, true/false questions, and open-ended questions. Finally, the bot will provide feedback on the user's answers if it is correct or not along with the reference source documentation title.</p>
 <h2> Documentation </h2>
 <h2> System Architecture </h2>
+<p align="center">
+  <img src="System Architecture.png" width="350" title="sys arch">
+</p>
+<p>
+  <b>User Input:</b></br>
+  The user enters a prompt in the user interface.</br>
+  <b>Embedding Generation:</b></br>
+  The system converts user queries into numerical embeddings, capturing the meaning of the text.</br>
+  <b>Vector Database Query:</b></br>
+  The application sends the generated embedding to the vector database.</br>
+  The vector database compares the user's embedding with precomputed embeddings of various documents.</br>
+  It returns a list of documents that are most relevant to the user's prompt based on the similarity of their embeddings to the user's embedding.</br>
+  <b>Contextual Prompt Creation:</b></br>
+  The application creates a new prompt by combining the user's initial prompt with the retrieved documents as context.</br>
+  This step aims to provide additional information and context to the local Language Model.</br>
+  <b>Local Language Model Processing (LLM):</b></br>
+  The modified prompt, containing both the user's input and relevant context documents, is sent to the local Language Model (LLM).</br>
+  The LLM processes the contextual prompt and generates a response based on the combined information.</br>
+  The response includes citations or references from the context documents, demonstrating the sources used to generate the answer.</br>
+  <b>User Interface Display:</b></br>
+  The system presents the response along with citations in the user interface.
+  Users can view the answer and sources, ensuring transparency and credibility in the information provided.
+</p>
 <h2> Video </h2> 
 <h2> Prerequisite </h2>
 Install python3
