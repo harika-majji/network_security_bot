@@ -4,7 +4,7 @@ Welcome to Network_Security_Bot
 <h2> Documentation </h2>
 <h2> System Architecture </h2>
 <p align="center">
-  <img src="System Architecture.png" width="350" title="sys arch">
+  <img src="System Architecture.png" width="500" title="sys arch">
 </p>
 <p>
   <h4>User Input:</h4>
