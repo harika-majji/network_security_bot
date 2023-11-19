@@ -1,5 +1,6 @@
 Welcome to Network_Security_Bot
 <h2> Project Description </h2>
+Our task is to build a quiz bot based on a network security course using the open-source alternatives to ChatGPT that can be run on any local machine. As data privacy can be compromised when sending data over the internet, it is mandatory to keep it on local system. The bot offers two types of questions: randomly generated questions and specific topic questions, the answers should be pulled from the network security database. The bot is trained using network security quizzes, lecture slides, network security textbook, and the Internet. The quiz includes multiple-choice questions, true/false questions, and open-ended questions. Finally, the bot will provide feedback on the user's answers if it is correct or not along with the reference source documentation title.
 <h2> Documentation </h2>
 <h2> System Architecture </h2>
 <h2> Video </h2> 
