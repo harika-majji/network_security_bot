@@ -64,6 +64,13 @@ venv/Scripts/activate - for WINDOWS users</br>
 •	python ingest.py # only once until the db folder is generated with all the training data </br>
 •	python app.py    # execute this command to run the application
 
+<h2>Features></h2>
+<p>
+  Bot will generate random and specific topic quizes from trained datasets based on user requirement.</br>
+  Bot generates different types of questions in quiz like multiple choice, true or false and open-ended.</br>
+  Bot will provide feedback as score to user once user completes quiz.</br>
+  Bot works both as quizbot and chatbot.  
+</p>
 <h2> Describe training data and data formats </h2>
 <p>We trained our bot using lecture slides and network security textbook(Network Security Essentials: Applications and Standards sixth edition - by William Stallings)</p>
 
