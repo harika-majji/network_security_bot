@@ -69,7 +69,7 @@ def initialize_llm(args):
     return llm
 
 
-def generateLLMResponse(llm, question, args):
+def generateLLMResponse(llm, question, args,quiz):
     # Parse the command line arguments
     embeddings_model_name = "all-MiniLM-L6-v2"
     persist_directory = "db"
@@ -77,22 +77,47 @@ def generateLLMResponse(llm, question, args):
     chroma_client = chromadb.PersistentClient(settings=CHROMA_SETTINGS , path=persist_directory)
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS, client=chroma_client)
     retriever = db.as_retriever(search_kwargs={'k':1})
-    template = """
-                Use the following pieces of context to answer the question at the end.
-                If you don't know the answer, just say that you don't know, don't try to make up an answer.
+    template = """Use the following pieces of context to answer the question.
+                Answer a network security question from training dataset with accurate citation resources like google.
                 Context: {context}
                 .........
                 Question: {question}
-                Answer: Let's think step by step."""
+                Answer: Let's think step by step. """
     prompt = PromptTemplate(template=template, input_variables=["context", "question"])
     #retriever = db.as_retriever(search_type="mmr", search_kwargs={'k': 2, 'lambda_mult': 0.5})
-
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, verbose=False , return_source_documents= not args.hide_source,chain_type_kwargs={"prompt": prompt })
-    # Interactive questions and answers
-    print(f"Lets ask the bot")
-    res = qa(question)
-    print("Result \n ",res)
-    print("\nSimilarity ", db.similarity_search(question))
+    if(quiz):
+        # llm_chain = LLMChain(prompt=prompt, llm=llm)
+        # #answer, questionDoc = res['result'], [] if args.hide_source else res['source_documents']
+        # return llm_chain.run(question)
+        qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever , return_source_documents= not args.hide_source)
+        # Interactive questions and answers
+        print(f"Lets ask the bot")
+        res = qa(question)
+        print("Result \n ",res)
+        #db.similarity_search(question)
+        document = res['result']
+        quizList = {}
+        source = ''
+        print("Document",document)
+        # for doc in document:
+        #     content = doc.page_content
+        source = res['source_documents'][0].metadata['source']
+        pattern = '\[QUESTION\](.*?)\[CORRECT_ANSWER\]:\s*(\w+)'
+        matches = re.findall(pattern, document, re.DOTALL)
+        questionList = []
+        answerList = []
+        for question, answer in matches:
+            questionList.append(question.strip())
+            answerList.append(answer.strip())
+        response ={'questions': questionList,'answers': answerList, 'source': source}
+        return response
+    else:
+        qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, verbose=False , return_source_documents= not args.hide_source,chain_type_kwargs={"prompt": prompt })
+        # Interactive questions and answers
+        print(f"Lets ask the bot")
+        res = qa(question)
+        print("Result \n ",res)
+        print("\nSimilarity ", db.similarity_search(question))
     #answer, docs = res['result'], [] if args.hide_source else res['source_documents']
     return res
 
