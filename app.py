@@ -18,12 +18,34 @@ def get_initialized_llm(parser):
 def render():
     return render_template("base.html")
 
-@app.post("/predict")
-def predict():
-    text = request.get_json().get("message")
-    response = get_response(text)
-    message = {"answer": response}
+@app.post("/getAllTopics")
+def getAllTopics():
+    topicList = ["Public key cryptography", "Symmetric Encryption", "Block Cipher", "Stream Cipher", "Message Authentication"];
+    message = {"topicList": topicList}
     return jsonify(message)
+
+@app.post("/generateQuiz")
+def generateQuiz():  
+    topic = request.get_json().get("question")
+    query = topic
+    print(query)
+    response = ""
+    parser = parse_arguments()
+    llm  = get_initialized_llm(parser);
+    print("LLM retrieved")
+    if(llm is not None):
+        bot_response = generateLLMResponse(llm, query, parser,True)
+        questions = bot_response['questions']
+        answers = bot_response['answers']
+        print("Questions",questions)
+        print("answers",answers)
+        citation = bot_response['source']
+        response= {"answers": answers, 'questions':questions,"citation": citation}
+    else:
+        print("Failed");
+        response = { "answer": "failure", "citation": ""}
+
+    return jsonify(response)
 
 @app.post("/generateChat")
 def generateChat():
