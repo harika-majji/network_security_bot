@@ -27,6 +27,11 @@
   Users can view the answer and sources, ensuring transparency and credibility in the information provided.
 </p>
 <h2> Video </h2> 
+<video width="320" height="240" controls>
+  <source src="movie.mp4" type="QuizBot_Video.mp4">
+  Your browser does not support the video tag.
+</video>
+
 https://github.com/harika-majji/network_security_bot/assets/145294690/faf1259b-bb3c-4530-bf70-e7473681618a
 <h2> Prerequisite </h2>
 Install python3</br>
