@@ -64,7 +64,7 @@ venv/Scripts/activate - for WINDOWS users</br>
 •	python ingest.py # only once until the db folder is generated with all the training data </br>
 •	python app.py    # execute this command to run the application
 
-<h2>Features></h2>
+<h2>Features</h2>
 <p>
   Bot will generate random and specific topic quizes from trained datasets based on user requirement.</br>
   Bot generates different types of questions in quiz like multiple choice, true or false and open-ended.</br>
