@@ -16,7 +16,7 @@ def get_initialized_llm(parser):
 
 @app.get("/")
 def render():
-    return render_template("base.html")
+    return render_template("botScreen.html")
 
 @app.post("/getAllTopics")
 def getAllTopics():
