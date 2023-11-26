@@ -12,11 +12,11 @@ body {
 }
 
 *, html {
-    --primaryGradient: linear-gradient(93.12deg, #581B98 0.52%, #9C1DE7 100%);
-    --secondaryGradient: linear-gradient(268.91deg, #581B98 -2.14%, #9C1DE7 99.69%);
+    --primaryGradient: linear-gradient(93.12deg, #0b0202 0.52%, #d90e0e 100%);
+    --secondaryGradient: linear-gradient(268.91deg, #1b0b0b -2.14%, #cf2121 99.69%);
     --primaryBoxShadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     --secondaryBoxShadow: 0px -10px 15px rgba(0, 0, 0, 0.1);
-    --primary: #581B98;
+    --primary: #220e0e;
 }
 
 /* CHATBOX
@@ -141,6 +141,18 @@ body {
     padding: 0 20px;
 }
 
+.bot_prompts {
+    height: 200px;
+    width: 400px;
+    /* background: rgb(194, 169, 169); */
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+}
+
 .messages__item {
     margin-top: 10px;
     background: #E0E0E0;
@@ -206,3 +218,16 @@ body {
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
+
+.btn-group button {
+    background-color: rgb(254, 5, 5); /* Green background */
+    /* border: 1px solid rgb(254, 5, 5); Green border */
+    color: white; /* White text */
+    /* padding: 10px 24px; /* Some padding */
+    float: center; /* Float the buttons side by side */
+  }
+  
+  /* Add a background color on hover */
+  .btn-group button:hover {
+    background-color: rgb(165, 13, 13);
+  }
