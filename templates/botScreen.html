@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+</head>
+<body>
+<div class="container">
+    <div class="chatbox">
+        <div class="chatbox__support chatbox--active">
+            <div class="chatbox__header">
+                <div class="chatbox__image--header">
+                    <img src="https://logos-world.net/wp-content/uploads/2021/11/Texas-Tech-Seal-Logo-700x394.png" style="height: 70px;" alt="image">
+                    <!-- <img src="Users/sankarsaigalla/Desktop/SampleBot/Chatbot_Icon.png" alt="image"> -->
+                </div>
+                <div class="chatbox__content--header">
+                    <h4 class="chatbox__heading--header">Network Security Chat Bot</h4>
+                    <p class="chatbox__description--header">Welcome to Chat/Quiz bot</p>
+                </div>
+            </div>
+            <div class="chatbox__messages" >
+                <div></div>
+            </div>
+            <div style="display: inline-block;">
+                <div class="bot_prompts" id="initial_prompts">
+                    <p>How can I help you today?</p></br>
+                    <div class="btn-group" style="width:100%">
+                        <button style="width:33.3%" class="quizBot_button" onclick="displayQuizbotPrimaryPrompt()">Quiz Bot</button>
+                        <button style="width:33.3%" class="chatBot_button" onclick="displayFooter()">Chat Bot</button>
+                    </div>
+                </div>
+                <div id="quizbot_primary_prompt" class="bot_prompts" style="display: none;">
+                    <p>Choose an option from below.</p></br>
+                    <div class="btn-group" style="width:100%">
+                        <button style="width:33.3%" class="random_question_button">Random topic</button>
+                        <button style="width:33.3%" class="specific_question_button" onclick="displaySpecificTopic()">Specific topic</button>
+                    </div>
+                </div>
+                <div id="quizbot_specific_topic_prompt" class="bot_prompts" style="display: none;">
+                    <p>Choose a topic from below.</p></br>
+                    <div class="btn-group" style="width:100%">
+                        <button  class="random_question_button"onclick="">Public Key Cryptography</button>
+                        <button  class="random_question_button"onclick="">Symmetric Encryption</button>
+                        <button  class="random_question_button"onclick="">Block Cipher</button>
+                        <button  class="random_question_button"onclick="">Stream Cipher</button>
+                        <button  class="specific_question_button" onclick="">Message Authentication</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="chatbox__footer" id="chatbox_footer_textarea" style="display: none;">
+                    <input type="text" placeholder="Post a Question">
+                    <button class="chatbox__send--footer send__button">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const footerElement = document.getElementById("chatbox_footer_textarea");
+    const initialPrompts = document.getElementById("initial_prompts");
+    const quizbotPrimaryPrompt = document.getElementById("quizbot_primary_prompt");
+    const quizbotSpecificTopicPrompt = document.getElementById("quizbot_specific_topic_prompt");
+    function displayFooter() {
+        if(footerElement.style.display === "none"){
+            footerElement.style.display = "flex";
+            initialPrompts.style.display = "none";
+        }
+    }
+    function displayQuizbotPrimaryPrompt(){
+        if(quizbotPrimaryPrompt.style.display === "none"){
+            quizbotPrimaryPrompt.style.display = "block";
+            initialPrompts.style.display = "none";
+        }
+
+    }
+    function displaySpecificTopic(){
+        if(quizbotSpecificTopicPrompt.style.display === "none"){
+            quizbotSpecificTopicPrompt.style.display = "block";
+            quizbotPrimaryPrompt.style.display = "none";
+
+        }
+    }
+</script>
+
+    <script>
+        $SCRIPT_ROOT = {{ request.script_root|tojson }};
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
