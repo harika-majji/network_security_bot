@@ -220,14 +220,29 @@ body {
 }
 
 .btn-group button {
-    background-color: rgb(254, 5, 5); /* Green background */
+    background-color: rgb(245, 241, 241);   
+    border: none; 
+    border-radius: 10px;
+    cursor: pointer;
     /* border: 1px solid rgb(254, 5, 5); Green border */
-    color: white; /* White text */
-    /* padding: 10px 24px; /* Some padding */
+    color: black ;/* White text */
+    padding: 10px; /* Some padding
     float: center; /* Float the buttons side by side */
+    margin-right: 10px; 
+    size: 100px;
+    background-color: transparent; 
+    font-size: 16px; /* Set the font size to your preference */
+    /* font-weight: bold; */
   }
   
   /* Add a background color on hover */
   .btn-group button:hover {
-    background-color: rgb(165, 13, 13);
+    background-color: rgb(173, 169, 169);
+  }
+
+  .drop_down {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 5px;
+    border-radius: 10px;
   }

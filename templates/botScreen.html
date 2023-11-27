@@ -13,10 +13,9 @@
             <div class="chatbox__header">
                 <div class="chatbox__image--header">
                     <img src="https://logos-world.net/wp-content/uploads/2021/11/Texas-Tech-Seal-Logo-700x394.png" style="height: 70px;" alt="image">
-                    <!-- <img src="Users/sankarsaigalla/Desktop/SampleBot/Chatbot_Icon.png" alt="image"> -->
                 </div>
                 <div class="chatbox__content--header">
-                    <h4 class="chatbox__heading--header">Network Security Chat Bot</h4>
+                    <h4 class="chatbox__heading--header">Network Security Bot</h4>
                     <p class="chatbox__description--header">Welcome to Chat/Quiz bot</p>
                 </div>
             </div>
@@ -34,24 +33,20 @@
                 <div id="quizbot_primary_prompt" class="bot_prompts" style="display: none;">
                     <p>Choose an option from below.</p></br>
                     <div class="btn-group" style="width:100%">
-                        <button style="width:33.3%" class="random_question_button">Random topic</button>
+                        <button style="width:33.3%" class="random_question_button randon__quiz">Random topic</button>
                         <button style="width:33.3%" class="specific_question_button" onclick="displaySpecificTopic()">Specific topic</button>
                     </div>
                 </div>
                 <div id="quizbot_specific_topic_prompt" class="bot_prompts" style="display: none;">
                     <p>Choose a topic from below.</p></br>
-                    <div class="btn-group" style="width:100%">
-                        <button  class="random_question_button"onclick="">Public Key Cryptography</button>
-                        <button  class="random_question_button"onclick="">Symmetric Encryption</button>
-                        <button  class="random_question_button"onclick="">Block Cipher</button>
-                        <button  class="random_question_button"onclick="">Stream Cipher</button>
-                        <button  class="specific_question_button" onclick="">Message Authentication</button>
-                    </div>
+                    <select id="myDropdown" class="drop_down topic__list">
+                    </select>
+
                 </div>
 
             </div>
             <div class="chatbox__footer" id="chatbox_footer_textarea" style="display: none;">
-                    <input type="text" placeholder="Post a Question">
+                    <input type="text" placeholder="Type here..!">
                     <button class="chatbox__send--footer send__button">Send</button>
                 </div>
             </div>
@@ -59,15 +54,19 @@
     </div>
 </div>
 
+
 <script>
     const footerElement = document.getElementById("chatbox_footer_textarea");
     const initialPrompts = document.getElementById("initial_prompts");
     const quizbotPrimaryPrompt = document.getElementById("quizbot_primary_prompt");
     const quizbotSpecificTopicPrompt = document.getElementById("quizbot_specific_topic_prompt");
+
     function displayFooter() {
         if(footerElement.style.display === "none"){
             footerElement.style.display = "flex";
             initialPrompts.style.display = "none";
+            quizbotPrimaryPrompt.style.display = "none";
+            quizbotSpecificTopicPrompt.style.display = "none";
         }
     }
     function displayQuizbotPrimaryPrompt(){
@@ -84,12 +83,38 @@
 
         }
     }
+
+    // Function to generate options dynamically
+    function generateOptions() {
+        // Assuming you have an array of options
+        var options = ["Select One","Public Key Cryptography", "Symmetric Encryption", "Block Cipher", "Stream Cipher", "Message Authentication", "Public Key Cryptography", "Symmetric Encryption", "Block Cipher", "Stream Cipher", "Message Authentication", "Message Authentication"];
+
+
+        // Get the dropdown element
+        var dropdown = document.getElementById("myDropdown");
+
+        // Clear existing options
+        dropdown.innerHTML = '';
+
+        // Loop through the options array and create option elements
+        options.forEach(function(option) {
+            var optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.text = option;
+            dropdown.appendChild(optionElement);
+        });
+    }
+
+    // Call the function to generate options
+    generateOptions();
+
 </script>
 
-    <script>
-        $SCRIPT_ROOT = {{ request.script_root|tojson }};
-    </script>
-    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+<script>
+    $SCRIPT_ROOT = {{ request.script_root|tojson }};
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
 
+   
 </body>
 </html>

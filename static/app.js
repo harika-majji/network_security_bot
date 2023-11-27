@@ -6,7 +6,9 @@ class Chatbox {
             chatBox: document.querySelector('.chatbox__support'),
             sendButton: document.querySelector('.send__button'),
             chatBotButton: document.querySelector('.chat_bot'),
-            quizBotButton: document.querySelector('.quiz_bot')
+            quizBotButton: document.querySelector('.quiz_bot'),
+            randomQuizButton: document.querySelector('.randon__quiz'),
+            topicQuizButton: document.querySelector('.topic__list')
 
         }
 
@@ -20,12 +22,16 @@ class Chatbox {
         // List of questions for the quiz
         this.quizQuestions = [];
         this.quizAnswers = [];
+        this.topics = ["Public Key Cryptography","Symmetric Encryption","Block Cipher", "Stream Cipher", "Message Authentication", "Public Key Cryptography","Symmetric Encryption","Block Cipher", "Stream Cipher", "Message Authentication", "Message Authentication"]
+
     }
 
     
     display() {
-        const {openButton, chatBox, sendButton, quizBotButton} = this.args;
+        const {openButton, chatBox, sendButton, quizBotButton, randomQuizButton, topicQuizButton} = this.args;
         sendButton.addEventListener('click', () => this.onSendButton(chatBox))
+        randomQuizButton.addEventListener('click',() => this.randomQuiz(chatBox))
+        topicQuizButton.addEventListener('change',() => this.topicQuiz(chatBox))
 
         const node = chatBox.querySelector('input');
         node.addEventListener("keyup", ({key}) => {
@@ -33,6 +39,7 @@ class Chatbox {
                 this.onSendButton(chatBox)
             }
         })
+        
 
         // this.displayQuizQuestion(chatBox);
     }
@@ -63,7 +70,6 @@ class Chatbox {
                 this.score++
             }
                
-    
             // Move to the next quiz question
             this.currentQuestionIndex++
     
@@ -90,42 +96,37 @@ class Chatbox {
             console.log("Api call");
             var textField = chatbox.querySelector('input')
             let text1 = textField.value
+            textField.value = '';
             if (text1 === "") {
                 return;
             }
-
-            let msg1 = { name: "User", message: text1 }
-            this.messages.push(msg1)
-            this.updateChatText(chatbox)
-            textField.value = ''
-            const timeoutInMilliseconds = 300000;
-            fetch($SCRIPT_ROOT + '/generateQuiz', {
-                method: 'POST',
-                body: JSON.stringify({ question: text1 }),
-                mode: 'cors',
-                timeout: timeoutInMilliseconds,
-                headers: {
-                'Content-Type': 'application/json'
-                },
-            })
-            .then(r => r.json())
-            .then(r => {
-                this.quizAnswers = r.answers
-                this.quizQuestions = r.questions
-                this.evaluate = true
-                this.displayQuizQuestion(chatbox)
-                // let msg2 = { name: "Bot", message: r.answer + " --- " + r.citation };
-                // this.messages.push(msg2);
-                // this.updateChatText(chatbox)
-                textField.value = ''
-               
-
-            }).catch((error) => {
-                console.error('Error:', error);
-                this.updateChatText(chatbox)
-                textField.value = ''
-            });
+            this.generateQuizApi(chatbox,text1)
         }
+    }
+
+    randomQuiz(chatbox){
+        var num =  Math.floor(Math.random() * 11);
+        console.log(num);
+        displayFooter();
+        let intial_input = "Generate a quiz on "+this.topics[num];
+        console.log(intial_input)
+        this.generateQuizApi(chatbox,intial_input)
+     }
+
+    topicQuiz(chatbox){
+        displayFooter();
+
+        var dropdown = document.getElementById("myDropdown");
+
+        const selectedOption = dropdown.options[dropdown.selectedIndex];
+
+        // Get the text of the selected option
+        const selectedOptionText = selectedOption.text;
+        console.log(selectedOptionText)
+        let intial_input = "Generate a quiz on "+selectedOptionText;
+        console.log(intial_input)
+        this.generateQuizApi(chatbox,intial_input)
+        
     }
 
     updateChatText(chatbox) {
@@ -143,6 +144,40 @@ class Chatbox {
 
         const chatmessage = chatbox.querySelector('.chatbox__messages');
         chatmessage.innerHTML = html;
+    }
+
+    generateQuizApi(chatbox, text1){
+
+        let msg1 = { name: "User", message: text1 }
+        this.messages.push(msg1)
+        this.updateChatText(chatbox)
+        const timeoutInMilliseconds = 300000;
+        fetch($SCRIPT_ROOT + '/generateQuiz', {
+            method: 'POST',
+            body: JSON.stringify({ question: text1 }),
+            mode: 'cors',
+            timeout: timeoutInMilliseconds,
+            headers: {
+            'Content-Type': 'application/json'
+            },
+        })
+        .then(r => r.json())
+        .then(r => {
+            this.quizAnswers = r.answers
+            this.quizQuestions = r.questions
+            this.evaluate = true
+            this.displayQuizQuestion(chatbox)
+            // let msg2 = { name: "Bot", message: r.answer + " --- " + r.citation };
+            // this.messages.push(msg2);
+            // this.updateChatText(chatbox)
+            textField.value = ''
+            
+
+        }).catch((error) => {
+            console.error('Error:', error);
+            this.updateChatText(chatbox)
+            textField.value = ''
+        });
     }
 }
 
