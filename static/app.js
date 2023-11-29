@@ -1,11 +1,13 @@
 class Chatbox {
 
     
+
+    
     constructor() {
         this.args = {          
             chatBox: document.querySelector('.chatbox__support'),
             sendButton: document.querySelector('.send__button'),
-            chatBotButton: document.querySelector('.chat_bot'),
+            chatBotButton: document.querySelector('.chat__bot'),
             quizBotButton: document.querySelector('.quiz_bot'),
             randomQuizButton: document.querySelector('.randon__quiz'),
             topicQuizButton: document.querySelector('.topic__list')
@@ -15,6 +17,7 @@ class Chatbox {
         this.state = false;
         this.messages = [];
         this.evaluate = false;
+        this.isChatBot = false;
 
         this.currentQuestionIndex = 0;
         this.score = 0;
@@ -22,16 +25,17 @@ class Chatbox {
         // List of questions for the quiz
         this.quizQuestions = [];
         this.quizAnswers = [];
-        this.topics = ["Public Key Cryptography","Symmetric Encryption","Block Cipher", "Stream Cipher", "Message Authentication", "Public Key Cryptography","Symmetric Encryption","Block Cipher", "Stream Cipher", "Message Authentication", "Message Authentication"]
+        this.topics = ["Public Key Cryptography","SYMMETRIC BLOCK ENCRYPTION","RANDOM NUMBERS","Stream Cipher", "Message Authentication","MAC"]
 
     }
 
     
     display() {
-        const {openButton, chatBox, sendButton, quizBotButton, randomQuizButton, topicQuizButton} = this.args;
+        const {openButton, chatBox, sendButton, quizBotButton, randomQuizButton, topicQuizButton, chatBotButton} = this.args;
         sendButton.addEventListener('click', () => this.onSendButton(chatBox))
         randomQuizButton.addEventListener('click',() => this.randomQuiz(chatBox))
         topicQuizButton.addEventListener('change',() => this.topicQuiz(chatBox))
+        chatBotButton.addEventListener('click', () => this.chatBot(chatBox))
 
         const node = chatBox.querySelector('input');
         node.addEventListener("keyup", ({key}) => {
@@ -100,10 +104,21 @@ class Chatbox {
             if (text1 === "") {
                 return;
             }
-            this.generateQuizApi(chatbox,text1)
+
+            if(this.isChatBot === true){
+                this.generateChatApi(chatbox,text1)
+            }
+            else{
+                this.generateQuizApi(chatbox,text1)
+            }
         }
     }
 
+
+    chatBot(chatBox){
+        this.isChatBot = true;
+        displayFooter();
+    }
     randomQuiz(chatbox){
         var num =  Math.floor(Math.random() * 11);
         console.log(num);
@@ -172,6 +187,35 @@ class Chatbox {
             // this.updateChatText(chatbox)
             textField.value = ''
             
+
+        }).catch((error) => {
+            console.error('Error:', error);
+            this.updateChatText(chatbox)
+            textField.value = ''
+        });
+    }
+
+    generateChatApi(chatbox, text1){
+
+        let msg1 = { name: "User", message: text1 }
+        this.messages.push(msg1)
+        this.updateChatText(chatbox)
+        const timeoutInMilliseconds = 300000;
+        fetch($SCRIPT_ROOT + '/generateChat', {
+            method: 'POST',
+            body: JSON.stringify({ question: text1 }),
+            mode: 'cors',
+            timeout: timeoutInMilliseconds,
+            headers: {
+            'Content-Type': 'application/json'
+            },
+        })
+        .then(r => r.json())
+        .then(r => {
+            let msg2 = { name: "Bot", message: r.answer + " ---Slide : " + r.citation+ " , Page : "+r.pageNo };
+            this.messages.push(msg2);
+            this.updateChatText(chatbox)
+            textField.value = ''
 
         }).catch((error) => {
             console.error('Error:', error);
