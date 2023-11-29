@@ -27,7 +27,7 @@
                     <p>How can I help you today?</p></br>
                     <div class="btn-group" style="width:100%">
                         <button style="width:33.3%" class="quizBot_button" onclick="displayQuizbotPrimaryPrompt()">Quiz Bot</button>
-                        <button style="width:33.3%" class="chatBot_button" onclick="displayFooter()">Chat Bot</button>
+                        <button style="width:33.3%" class="chatBot_button chat__bot">Chat Bot</button>
                     </div>
                 </div>
                 <div id="quizbot_primary_prompt" class="bot_prompts" style="display: none;">
@@ -87,8 +87,7 @@
     // Function to generate options dynamically
     function generateOptions() {
         // Assuming you have an array of options
-        var options = ["Select One","Public Key Cryptography", "Symmetric Encryption", "Block Cipher", "Stream Cipher", "Message Authentication", "Public Key Cryptography", "Symmetric Encryption", "Block Cipher", "Stream Cipher", "Message Authentication", "Message Authentication"];
-
+        var options = ["Select One","Public Key Cryptography","SYMMETRIC BLOCK ENCRYPTION","RANDOM NUMBERS","Stream Cipher", "Message Authentication","MAC"]
 
         // Get the dropdown element
         var dropdown = document.getElementById("myDropdown");
