@@ -36,8 +36,8 @@ https://github.com/harika-majji/network_security_bot/assets/145294690/faf1259b-b
 Install python3</br>
 Create virtual environment</br>
 python3 -m venv venv</br>
-venv/bin/activate - for MAC users</br>
-venv/Scripts/activate - for WINDOWS users</br>
+./venv/bin/activate - for MAC users</br>
+./venv/Scripts/activate - for WINDOWS users</br>
 <h2> Requirements </h2>
 *pip install langchain==0.0.274</br>
 *pip install gpt4all==1.0.8</br>
@@ -60,7 +60,6 @@ venv/Scripts/activate - for WINDOWS users</br>
 
 <h2> Step by step instructions for executions </h2>
 
-•	python train.py  # only once when the application runs </br>
 •	python ingest.py # only once until the db folder is generated with all the training data </br>
 •	python app.py    # execute this command to run the application
 
