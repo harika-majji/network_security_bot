@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
+from langchain.chains import RetrievalQA, LLMChain
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.vectorstores import Chroma
 from langchain.llms import GPT4All, LlamaCpp
 import chromadb
 import os
+import re
 import argparse
 import time
 from constants import CHROMA_SETTINGS
@@ -27,8 +28,6 @@ def initialize():
     model_n_ctx = 1000 #os.environ.get('MODEL_N_CTX')
     model_n_batch = int(os.environ.get('MODEL_N_BATCH',8))
     target_source_chunks = int(os.environ.get('TARGET_SOURCE_CHUNKS',4))
-
-
 
 def similarity_search(query, index):
     matched_docs = index.similarity_search(query, k=4)
@@ -61,7 +60,7 @@ def initialize_llm(args):
         case "LlamaCpp":
             llm = LlamaCpp(model_path=model_path, max_tokens=model_n_ctx, n_batch=model_n_batch, callbacks=callbacks, verbose=False)
         case "GPT4All":
-            llm = GPT4All(model=model_path, max_tokens=model_n_ctx, backend='gptj', callbacks=callbacks , verbose=False)
+            llm = GPT4All(model=model_path, max_tokens=model_n_ctx, backend='gptj',temp = 0, callbacks=callbacks ,repeat_penalty = 1.15, verbose=False)
         case _default:
             # raise exception if model_type is not supported
             raise Exception("Model type {model_type} is not supported. Please choose one of the following: LlamaCpp, GPT4All")
@@ -76,15 +75,7 @@ def generateLLMResponse(llm, question, args,quiz):
     embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
     chroma_client = chromadb.PersistentClient(settings=CHROMA_SETTINGS , path=persist_directory)
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS, client=chroma_client)
-    retriever = db.as_retriever(search_kwargs={'k':1})
-    template = """Use the following pieces of context to answer the question.
-                Answer a network security question from training dataset with accurate citation resources like google.
-                Context: {context}
-                .........
-                Question: {question}
-                Answer: Let's think step by step. """
-    prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    #retriever = db.as_retriever(search_type="mmr", search_kwargs={'k': 2, 'lambda_mult': 0.5})
+    retriever = db.as_retriever(search_kwargs={'k':3})
     if(quiz):
         # llm_chain = LLMChain(prompt=prompt, llm=llm)
         # #answer, questionDoc = res['result'], [] if args.hide_source else res['source_documents']
@@ -94,31 +85,26 @@ def generateLLMResponse(llm, question, args,quiz):
         print(f"Lets ask the bot")
         res = qa(question)
         print("Result \n ",res)
-        #db.similarity_search(question)
         document = res['result']
-        quizList = {}
-        source = ''
-        print("Document",document)
-        # for doc in document:
-        #     content = doc.page_content
-        source = res['source_documents'][0].metadata['source']
-        pattern = '\[QUESTION\](.*?)\[CORRECT_ANSWER\]:\s*(\w+)'
+        pattern = '\[QUESTION\](.*?)\[CORRECT_ANSWER\]:\s*(.*?)\s*\[SOURCE\]\s*(.*?)\s*\[PAGE\]\s*(\d+)'
         matches = re.findall(pattern, document, re.DOTALL)
         questionList = []
         answerList = []
-        for question, answer in matches:
+        sourceList= []
+        pageList = []
+        for question, answer,source,page in matches:
             questionList.append(question.strip())
             answerList.append(answer.strip())
-        response ={'questions': questionList,'answers': answerList, 'source': source}
+            sourceList.append(source.strip())
+            pageList.append(page.strip())
+        response ={'questions': questionList,'answers': answerList, 'source': ''}
         return response
     else:
-        qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, verbose=False , return_source_documents= not args.hide_source,chain_type_kwargs={"prompt": prompt })
+        qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents= not args.hide_source)
         # Interactive questions and answers
         print(f"Lets ask the bot")
         res = qa(question)
         print("Result \n ",res)
-        print("\nSimilarity ", db.similarity_search(question))
-    #answer, docs = res['result'], [] if args.hide_source else res['source_documents']
     return res
 
 def parse_arguments():
