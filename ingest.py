@@ -38,8 +38,8 @@ persist_directory = "db"
 source_directory = os.environ.get('SOURCE_DIRECTORY', 'training_dataset')
 embeddings_model_name = "all-MiniLM-L6-v2"
 #os.environ.get('EMBEDDINGS_MODEL_NAME')
-chunk_size = 900
-chunk_overlap = 54
+chunk_size = 1024
+chunk_overlap = 150
 
 
 # Custom document loaders
