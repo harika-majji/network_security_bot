@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 #from flask_cors import CORS
-from chat import get_response
 from chatbot import generateLLMResponse, parse_arguments,initialize_llm
 
 app= Flask(__name__)
@@ -49,24 +48,20 @@ def generateQuiz():
 
 @app.post("/generateChat")
 def generateChat():
-    
     query = request.get_json().get("question")
-    result = get_response(query)
     response = ""
-    if(result == "IDK"):
-        parser = parse_arguments()
-        llm  = get_initialized_llm(parser);
-        print("LLM retrieved")
-        if(llm is not None):
-            bot_response = generateLLMResponse(llm, query, parser)
-            answer, docs = bot_response['result'], [] if parser.hide_source else bot_response['source_documents']
-            citation = docs[0].metadata["source"]
-            response= {"answer": answer,"citation": citation}
-        else:
-            print("Failed");
-            response = { "answer": "failure", "citation": ""}
+    parser = parse_arguments()
+    llm  = get_initialized_llm(parser);
+    print("LLM retrieved")
+    if(llm is not None):
+        bot_response = generateLLMResponse(llm, query, parser,False)
+        answer, docs = bot_response['result'], [] if parser.hide_source else bot_response['source_documents']
+        citation = docs[0].metadata["source"]
+        pageNo = docs[0].metadata["page"]
+        response= {"answer": answer,"citation": citation, "pageNo": pageNo}
     else:
-        response = {"answer": result,"citation": ""}
+        print("Failed");
+        response = { "answer": "failure", "citation": "", "pageNo": ""}
     return jsonify(response)
 
 if __name__ == "__main__":
