@@ -1,8 +1,5 @@
 class Chatbox {
 
-    
-
-    
     constructor() {
         this.args = {          
             chatBox: document.querySelector('.chatbox__support'),
