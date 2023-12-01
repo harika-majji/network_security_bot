@@ -17,54 +17,19 @@ if not load_dotenv():
     print("Could not load .env file or it is empty. Please check if it exists and is readable.")
     exit(1)
 
-def initialize():
-    embeddings_model_name = "all-MiniLM-L6-v2"
-    #os.environ.get("EMBEDDINGS_MODEL_NAME")
-    persist_directory = "db"
-    #os.environ.get('PERSIST_DIRECTORY')
-
-    model_type = "GPT4All" #os.environ.get('MODEL_TYPE')
-    model_path = "models/ggml-gpt4all-j-v1.3-groovy.bin" #os.environ.get('MODEL_PATH')
-    model_n_ctx = 1000 #os.environ.get('MODEL_N_CTX')
-    model_n_batch = int(os.environ.get('MODEL_N_BATCH',8))
-    target_source_chunks = int(os.environ.get('TARGET_SOURCE_CHUNKS',4))
-
-def similarity_search(query, index):
-    matched_docs = index.similarity_search(query, k=4)
-    sources = []
-    for doc in matched_docs:
-        sources.append(
-            {
-                "page_content": doc.page_content,
-                "metadata": doc.metadata,
-            }
-        )
-
-    return matched_docs, sources
 def initialize_llm(args):
     embeddings_model_name = "all-MiniLM-L6-v2"
-    #os.environ.get("EMBEDDINGS_MODEL_NAME")
     persist_directory = "db"
-    #os.environ.get('PERSIST_DIRECTORY')
 
-    model_type = "GPT4All" #os.environ.get('MODEL_TYPE')
-    model_path = "models/ggml-gpt4all-j-v1.3-groovy.bin" #os.environ.get('MODEL_PATH')
-    model_n_ctx = 1000 #os.environ.get('MODEL_N_CTX')
-    #model_n_batch = int(os.environ.get('MODEL_N_BATCH',8))
-    target_source_chunks = int(os.environ.get('TARGET_SOURCE_CHUNKS',1))
+    model_type = "GPT4All"
+    model_path = "models/ggml-gpt4all-j-v1.3-groovy.bin"
+    model_n_ctx = 1000 
     # activate/deactivate the streaming StdOut callback for LLMs
     callbacks = [] if args.mute_stream else [StreamingStdOutCallbackHandler()]
     # Prepare the LLM
     print("Prepare the LLM")
-    match model_type:
-        case "LlamaCpp":
-            llm = LlamaCpp(model_path=model_path, max_tokens=model_n_ctx, n_batch=model_n_batch, callbacks=callbacks, verbose=False)
-        case "GPT4All":
-            llm = GPT4All(model=model_path, max_tokens=model_n_ctx, backend='gptj',temp = 0, callbacks=callbacks ,repeat_penalty = 1.15, verbose=False)
-        case _default:
-            # raise exception if model_type is not supported
-            raise Exception("Model type {model_type} is not supported. Please choose one of the following: LlamaCpp, GPT4All")
-    print("LLM created");
+    llm = GPT4All(model=model_path, max_tokens=model_n_ctx, backend='gptj',temp = 0, callbacks=callbacks ,repeat_penalty = 1.15, verbose=False)
+    print("LLM created")
     return llm
 
 
@@ -77,27 +42,27 @@ def generateLLMResponse(llm, question, args,quiz):
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS, client=chroma_client)
     retriever = db.as_retriever(search_kwargs={'k':3})
     if(quiz):
-        # llm_chain = LLMChain(prompt=prompt, llm=llm)
-        # #answer, questionDoc = res['result'], [] if args.hide_source else res['source_documents']
-        # return llm_chain.run(question)
         qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever , return_source_documents= not args.hide_source)
         # Interactive questions and answers
         print(f"Lets ask the bot")
         res = qa(question)
         print("Result \n ",res)
-        document = res['result']
-        pattern = '\[QUESTION\](.*?)\[CORRECT_ANSWER\]:\s*(.*?)\s*\[SOURCE\]\s*(.*?)\s*\[PAGE\]\s*(\d+)'
+        documents = res['source_documents']
+        document = ''
+        for doc in documents:
+            if(question.lower() in doc.page_content.lower()):
+                document = doc.page_content
+                
+        pattern = '\[QUESTION\]\s*(.*?)\s*\[ANSWER\]:\s*(.*?)\s*\[SOURCE\]:\s*(.*?)\s*\[PAGE\]:\s*(\w+)'
         matches = re.findall(pattern, document, re.DOTALL)
         questionList = []
         answerList = []
         sourceList= []
-        pageList = []
-        for question, answer,source,page in matches:
+        for question, answer, source, page in matches:
             questionList.append(question.strip())
             answerList.append(answer.strip())
-            sourceList.append(source.strip())
-            pageList.append(page.strip())
-        response ={'questions': questionList,'answers': answerList, 'source': ''}
+            sourceList.append(source.strip() + " ,Page:" + page.strip())
+        response ={'questions': questionList,'answers': answerList, 'source': sourceList }
         return response
     else:
         qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents= not args.hide_source)

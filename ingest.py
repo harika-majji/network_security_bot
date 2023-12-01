@@ -34,11 +34,9 @@ import chromadb
 
 # Load environment variables
 persist_directory = "db"
-#os.environ.get('PERSIST_DIRECTORY')
 source_directory = os.environ.get('SOURCE_DIRECTORY', 'training_dataset')
 embeddings_model_name = "all-MiniLM-L6-v2"
-#os.environ.get('EMBEDDINGS_MODEL_NAME')
-chunk_size = 1024
+chunk_size = 1000
 chunk_overlap = 150
 
 
@@ -68,7 +66,6 @@ class MyElmLoader(UnstructuredEmailLoader):
 # Map file extensions to document loaders and their arguments
 LOADER_MAPPING = {
     ".csv": (CSVLoader, {}),
-    # ".docx": (Docx2txtLoader, {}),
     ".doc": (UnstructuredWordDocumentLoader, {}),
     ".docx": (UnstructuredWordDocumentLoader, {}),
     ".enex": (EverNoteLoader, {}),
@@ -123,10 +120,6 @@ def process_documents(ignored_files: List[str] = []) -> List[Document]:
     """
     print(f"Loading documents from {source_directory}")
     documents = load_documents(source_directory, ignored_files)
-
-    # print(f"Loaded {len(documents)} new documents from {source_directory}")
-    #loader = PyPDFLoader(source_directory)
-    #documents = loader.load_and_split()
     if not documents:
         print("No new documents to load")
         exit(0)

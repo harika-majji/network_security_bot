@@ -22,6 +22,7 @@ class Chatbox {
         // List of questions for the quiz
         this.quizQuestions = [];
         this.quizAnswers = [];
+        this.source = [];
         this.topics = ["Public Key Cryptography","SYMMETRIC BLOCK ENCRYPTION","RANDOM NUMBERS","Stream Cipher", "Message Authentication","MAC"]
 
     }
@@ -46,7 +47,7 @@ class Chatbox {
     }
     displayQuizQuestion(chatbox) {
         console.log("In display")
-        const quizQuestion = this.quizQuestions[this.currentQuestionIndex];
+        const quizQuestion = this.quizQuestions[this.currentQuestionIndex] + "Reference : " +this.source[this.currentQuestionIndex];
         const quizMessage = { name: "Bot", message: `Quiz: ${quizQuestion}` };
         this.messages.push(quizMessage);
         this.updateChatText(chatbox);
@@ -67,7 +68,7 @@ class Chatbox {
             console.log(userAnswer)
             console.log(this.quizAnswers[this.currentQuestionIndex])
             // Check the user's answer if needed
-            if(userAnswer === this.quizAnswers[this.currentQuestionIndex]){
+            if(userAnswer.toLowerCase() === this.quizAnswers[this.currentQuestionIndex].toLowerCase()){
                 this.score++
             }
                
@@ -88,6 +89,7 @@ class Chatbox {
                 this.messages.push(finalMessage);
                 this.updateChatText(chatbox);
                 this.evaluate = false;
+                hideFooter();
             }
     
             // Clear the user input
@@ -120,7 +122,7 @@ class Chatbox {
         var num =  Math.floor(Math.random() * 11);
         console.log(num);
         displayFooter();
-        let intial_input = "Generate a quiz on "+this.topics[num];
+        let intial_input = "Generate quiz on "+this.topics[num];
         console.log(intial_input)
         this.generateQuizApi(chatbox,intial_input)
      }
@@ -135,7 +137,7 @@ class Chatbox {
         // Get the text of the selected option
         const selectedOptionText = selectedOption.text;
         console.log(selectedOptionText)
-        let intial_input = "Generate a quiz on "+selectedOptionText;
+        let intial_input = "Generate quiz on "+selectedOptionText;
         console.log(intial_input)
         this.generateQuizApi(chatbox,intial_input)
         
@@ -175,8 +177,10 @@ class Chatbox {
         })
         .then(r => r.json())
         .then(r => {
+            console.log("Response retreived")
             this.quizAnswers = r.answers
             this.quizQuestions = r.questions
+            this.source = r.citation
             this.evaluate = true
             this.displayQuizQuestion(chatbox)
             // let msg2 = { name: "Bot", message: r.answer + " --- " + r.citation };

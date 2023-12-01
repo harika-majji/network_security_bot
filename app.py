@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-#from flask_cors import CORS
 from chatbot import generateLLMResponse, parse_arguments,initialize_llm
 
 app= Flask(__name__)
-#CORS(app)
 
 init_llm = None
 
@@ -16,12 +14,6 @@ def get_initialized_llm(parser):
 @app.get("/")
 def render():
     return render_template("botScreen.html")
-
-@app.post("/getAllTopics")
-def getAllTopics():
-    topicList = ["Public key cryptography", "Symmetric Encryption", "Block Cipher", "Stream Cipher", "Message Authentication"];
-    message = {"topicList": topicList}
-    return jsonify(message)
 
 @app.post("/generateQuiz")
 def generateQuiz():  
@@ -41,9 +33,9 @@ def generateQuiz():
         citation = bot_response['source']
         response= {"answers": answers, 'questions':questions,"citation": citation}
     else:
-        print("Failed");
+        print("Failed")
         response = { "answer": "failure", "citation": ""}
-
+    print("Response",response)
     return jsonify(response)
 
 @app.post("/generateChat")
@@ -60,7 +52,7 @@ def generateChat():
         pageNo = docs[0].metadata["page"]
         response= {"answer": answer,"citation": citation, "pageNo": pageNo}
     else:
-        print("Failed");
+        print("Failed")
         response = { "answer": "failure", "citation": "", "pageNo": ""}
     return jsonify(response)
 
