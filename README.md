@@ -72,4 +72,3 @@ python3 -m venv venv</br>
 </p>
 <h2> Describe training data and data formats </h2>
 <p>We trained our bot using lecture slides and network security textbook(Network Security Essentials: Applications and Standards sixth edition - by William Stallings)</p>
-
